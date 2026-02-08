@@ -1,6 +1,9 @@
 {
   "name": "talentmeet",
   "version": "1.0.0",
+  "engines": {
+    "node": "20.x"
+  },
   "main": "index.js",
   "scripts": {
     "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
@@ -18,4 +21,5 @@
   },
   "homepage": "https://github.com/pranjal885/TalentMeet#readme",
   "description": ""
+  
 }
