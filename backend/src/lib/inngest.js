@@ -4,6 +4,7 @@
 import { Inngest } from "inngest";
 import { connectDB } from "./db.js";
 import User from "../models/User.js";
+import { upsertStreamUser } from "./stream.js";
 
 // Initialize Inngest client for TalentMeet
 export const inngest = new Inngest({ id: "talentmeet-inngest" });
@@ -46,6 +47,12 @@ const syncUser = inngest.createFunction(
       newUser,
       { upsert: true, new: true }
     );
+
+    await upsertStreamUser({
+      id:newUser.clerkId.toString(),
+      name:newUser.name,
+      image:newUser.profileImage
+    });
   }
 );
 
@@ -65,6 +72,8 @@ const deleteUserFromDB = inngest.createFunction(
 
     // Remove user from MongoDB using Clerk ID
     await User.deleteOne({ clerkId: id });
+
+    await deleteStreamUser(id.toString());
   }
 );
 
